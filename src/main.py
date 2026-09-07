@@ -1,8 +1,9 @@
-import requests
+from utils.helper import say_hello
+
 
 def main():
-    response=requests.get("https://httpbin.org/get")
-    print(response.status_code)
-    
-if __name__=="__main__":
+    print(say_hello("Python Project"))
+
+
+if __name__ == "__main__":
     main()
