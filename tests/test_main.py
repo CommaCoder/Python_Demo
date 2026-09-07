@@ -1,5 +1,5 @@
-from src.utils.helper import say_hello
-
+from src.python_demo.utils.helper import say_hello
 
 def test_say_hello():
-    assert say_hello("Python") == "Hello, Python!"
+    result=say_hello("Python")
+    assert result =="Hello,Python"
