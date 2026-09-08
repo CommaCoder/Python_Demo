@@ -1,3 +1,7 @@
+import json
+import os
+
+
 def add_task(tasks,task):
     """向任务列表追加任务"""
     tasks.append(task)
@@ -28,8 +32,22 @@ def update_task(tasks, index, new_task):
         print("❌ 任务序号不存在，修改失败")
 
 
+def save_tasks(tasks,file_path):
+    with open(file_path,"w",encoding="utf-8") as f:
+        json.dump(tasks,f, ensure_ascii=False, indent=2)
+
+def load_tasks(file_path):
+    """读取JSON文件,加载任务;文件不存在返回空列表"""
+    if not os.path.exists(file_path):
+        return []
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
 def main():
-    tasks=[]
+    
+    json_file_path="tasks.json"
+    tasks=load_tasks(json_file_path)
 
     while True:
         print("===== TodoList 主菜单 =====")
@@ -76,6 +94,9 @@ def main():
                 print("❌ 输入不是有效数字！")
 
         elif choice == "5":
+
+            save_tasks(tasks, json_file_path)
+            print("💾 任务已保存到 tasks.json")
             print("👋 程序退出")
             break
 
