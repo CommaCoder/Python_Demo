@@ -1,6 +1,6 @@
 import tempfile
 import os
-from src.python_demo.service.todo_service import add_task, delete_task, update_task, save_tasks, load_tasks,toggle_task_status
+from src.python_demo.service.todo_service import add_task, delete_task, update_task, save_tasks, load_tasks,toggle_task_status,set_task_priority
 
 def test_add_task():
     tasks = []
@@ -80,3 +80,23 @@ def test_toggle_task_status():
     toggle_task_status(tasks, 999)
     assert tasks[0]["done"] is False
 
+def test_set_task_priority():
+    tasks = []
+    add_task(tasks, "优先级测试任务")
+    # 默认优先级=2（中）
+    assert tasks[0]["priority"] == 2
+
+    # 修改为高优先级1
+    set_task_priority(tasks, 1, 1)
+    assert tasks[0]["priority"] == 1
+    # 修改为低优先级3
+    set_task_priority(tasks, 1, 3)
+    assert tasks[0]["priority"] == 3
+
+    # 非法优先级，不改变
+    set_task_priority(tasks,1,99)
+    assert tasks[0]["priority"] == 3
+
+    # 不存在ID，无变化
+    set_task_priority(tasks,999,1)
+    assert tasks[0]["priority"] ==3

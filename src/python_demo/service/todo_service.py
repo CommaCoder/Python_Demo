@@ -10,12 +10,13 @@ def show_tasks(tasks):
         return
     print("\n===== 任务列表 =====")
     for task in tasks:
-        print(f"{task['id']}. {task['content']} {'[✓]' if task['done'] else '[]'}")
+        pri_text = {1:"[高]",2:"[中]",3:"[低]"}[task["priority"]]
+        print(f"{task['id']}. {pri_text} {task['content']} {'[✓]' if task['done'] else '[]'}")
     print("====================\n")
 
 
 def delete_task(tasks, task_id):
-    """按列表原生下标（0开始）删除任务"""
+    """按列ID删除任务"""
     for task in tasks:
         if task["id"]==task_id:
             tasks.remove(task)
@@ -26,7 +27,7 @@ def delete_task(tasks, task_id):
             
 
 def update_task(tasks, task_id, new_content):
-    """修改指定下标任务内容"""
+    """修改指定任务内容"""
     for task in tasks:
         if task["id"]==task_id:
             task["content"]=new_content
@@ -57,7 +58,7 @@ def generate_next_id(tasks):
 
 def add_task(tasks, content):
     """向任务列表追加任务"""
-    task={"id":generate_next_id(tasks),"content":content,"done":False}
+    task={"id":generate_next_id(tasks),"content":content,"done":False,"priority":2}
     tasks.append(task)
 
 
@@ -69,4 +70,20 @@ def toggle_task_status(tasks,task_id):
             break
     else:
         print("❌ 任务ID不存在，切换失败")
+
+def set_task_priority(tasks, task_id, priority_level):
+    """设置任务优先级，仅允许1/2/3"""
+    # 先判断priority_level是不是合法
+    if priority_level not in (1,2,3):
+        print("❌ 优先级只能是1(高)、2(中)、3(低)")
+        return
+    # 遍历查找task_id，找到就赋值task["priority"] = priority_level
+    for task in tasks:
+        if task["id"]==task_id:
+            task["priority"]=priority_level
+            print("✅ 任务优先级修改成功")
+            break
+    else:
+        print("❌ 任务ID不存在，修改优先级失败")
+
 

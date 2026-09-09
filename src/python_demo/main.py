@@ -1,5 +1,5 @@
 import os
-from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks,toggle_task_status
+from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks,toggle_task_status,set_task_priority
 
 def main():
     
@@ -13,8 +13,10 @@ def main():
         print("3. 删除任务")
         print("4. 修改任务")
         print("5. 退出程序")
-        print("5. 标记任务完成/未完成")
-        choice = input("请输入功能序号(1~5):")
+        print("6. 标记任务完成/未完成")
+        print("7. 修改任务优先级")
+
+        choice = input("请输入功能序号(1~7):")
 
         if choice=="1":
             print("\n--- 添加任务（输入q结束添加）---")
@@ -66,8 +68,17 @@ def main():
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
+        elif choice =="7":
+            show_tasks(tasks)
+            try:
+                task_id = int(input("请输入要修改优先级的任务ID："))
+                pri = int(input("请输入优先级(1高,2中,3低)："))
+                set_task_priority(tasks, task_id, pri)
+            except ValueError:
+                print("❌ 输入不是有效数字！")
+            
         else:
-            print("❌ 无效选项，请输入1-5之间数字")
+            print("❌ 无效选项，请输入1-6之间数字")
 
 if __name__=="__main__":
     main()
