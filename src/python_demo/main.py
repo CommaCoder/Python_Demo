@@ -1,7 +1,5 @@
 import os
-from src.python_demo.service.todo_service import *
-
-
+from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks
 
 def main():
     
@@ -36,9 +34,8 @@ def main():
         elif choice == "3":
             show_tasks(tasks)
             try:
-                user_num=int(input("请输入要删除的任务序号："))
-                real_index=user_num-1
-                delete_task(tasks,real_index)
+                user_num=int(input("请输入要删除的任务ID："))
+                delete_task(tasks,user_num)
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
@@ -46,9 +43,8 @@ def main():
             show_tasks(tasks)
             try:
                 user_num = int(input("请输入要修改的任务序号："))
-                real_index = user_num - 1
                 new_text = input("输入任务新内容：")
-                update_task(tasks, real_index, new_text)
+                update_task(tasks, user_num, new_text)
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
@@ -64,4 +60,5 @@ def main():
 
 if __name__=="__main__":
     main()
+
 
