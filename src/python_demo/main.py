@@ -1,5 +1,5 @@
 import os
-from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks
+from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks,toggle_task_status
 
 def main():
     
@@ -13,6 +13,7 @@ def main():
         print("3. 删除任务")
         print("4. 修改任务")
         print("5. 退出程序")
+        print("5. 标记任务完成/未完成")
         choice = input("请输入功能序号(1~5):")
 
         if choice=="1":
@@ -54,6 +55,16 @@ def main():
             print("💾 任务已保存到 tasks.json")
             print("👋 程序退出")
             break
+
+        elif choice == "6":
+            show_tasks(tasks)
+
+            try:
+                task_id=int(input("请输入要切换状态的任务ID："))
+                toggle_task_status(tasks,task_id)
+
+            except ValueError:
+                print("❌ 输入不是有效数字！")
 
         else:
             print("❌ 无效选项，请输入1-5之间数字")

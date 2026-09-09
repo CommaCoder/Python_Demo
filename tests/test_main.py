@@ -1,6 +1,6 @@
 import tempfile
 import os
-from src.python_demo.service.todo_service import add_task, delete_task, update_task, save_tasks, load_tasks
+from src.python_demo.service.todo_service import add_task, delete_task, update_task, save_tasks, load_tasks,toggle_task_status
 
 def test_add_task():
     tasks = []
@@ -62,3 +62,21 @@ def test_load_file_not_exist():
     non_exist_path = "no_such_file_12345.json"
     tasks = load_tasks(non_exist_path)
     assert tasks == []
+
+
+def test_toggle_task_status():
+    tasks = []
+    add_task(tasks, "测试切换状态")
+    # 新建默认未完成
+    assert tasks[0]["done"] is False
+    # 第一次切换 → 变成True
+    toggle_task_status(tasks, 1)
+    assert tasks[0]["done"] is True
+    # 第二次切换 → 变回False
+    toggle_task_status(tasks, 1)
+    assert tasks[0]["done"] is False
+
+    # 切换不存在ID，列表无变化
+    toggle_task_status(tasks, 999)
+    assert tasks[0]["done"] is False
+

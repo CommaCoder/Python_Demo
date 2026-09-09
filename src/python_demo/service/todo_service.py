@@ -10,7 +10,7 @@ def show_tasks(tasks):
         return
     print("\n===== 任务列表 =====")
     for task in tasks:
-        print(f"{task['id']}.{task['content']}")
+        print(f"{task['id']}. {task['content']} {'[✓]' if task['done'] else '[]'}")
     print("====================\n")
 
 
@@ -57,7 +57,16 @@ def generate_next_id(tasks):
 
 def add_task(tasks, content):
     """向任务列表追加任务"""
-    task={"id":generate_next_id(tasks),"content":content}
+    task={"id":generate_next_id(tasks),"content":content,"done":False}
     tasks.append(task)
 
+
+def toggle_task_status(tasks,task_id):
+    for task in tasks:
+        if task["id"]==task_id:
+            task["done"]=not task["done"]
+            print("✅ 任务状态切换成功")
+            break
+    else:
+        print("❌ 任务ID不存在，切换失败")
 
