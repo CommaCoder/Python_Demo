@@ -21,9 +21,10 @@ def delete_task(tasks, task_id):
         if task["id"]==task_id:
             tasks.remove(task)
             print("✅ 任务删除成功")
-            break
+            return True
     else:
         print("❌ 任务序号不存在，删除失败")
+        return False
             
 
 def update_task(tasks, task_id, new_content):
@@ -33,9 +34,10 @@ def update_task(tasks, task_id, new_content):
             task["content"]=new_content
             task["update_time"]=get_now_str()
             print("✅ 任务修改成功")
-            break
+            return True
     else:
         print("❌ 任务序号不存在，修改失败")
+        return False
 
 
 def save_tasks(tasks, file_path):
@@ -77,25 +79,27 @@ def toggle_task_status(tasks,task_id):
             task["done"]=not task["done"]
             task["update_time"]=get_now_str()
             print("✅ 任务状态切换成功")
-            break
+            return True
     else:
         print("❌ 任务ID不存在，切换失败")
+        return False
 
 def set_task_priority(tasks, task_id, priority_level):
     """设置任务优先级，仅允许1/2/3"""
     # 先判断priority_level是不是合法
     if priority_level not in (1,2,3):
         print("❌ 优先级只能是1(高)、2(中)、3(低)")
-        return
+        return False
     # 遍历查找task_id，找到就赋值task["priority"] = priority_level
     for task in tasks:
         if task["id"]==task_id:
             task["priority"]=priority_level
             task["update_time"]=get_now_str()
             print("✅ 任务优先级修改成功")
-            break
+            return True
     else:
         print("❌ 任务ID不存在，修改优先级失败")
+        return False
 
 
 

@@ -1,5 +1,13 @@
 import os
-from src.python_demo.service.todo_service import add_task,delete_task,update_task,show_tasks,save_tasks,load_tasks,toggle_task_status,set_task_priority
+from .service.todo_service import (add_task,
+                                   delete_task,
+                                   update_task,
+                                   show_tasks,
+                                   save_tasks,
+                                   load_tasks,
+                                   toggle_task_status,
+                                   set_task_priority
+                                   )
 
 def main():
     
@@ -30,6 +38,7 @@ def main():
                     print("⚠️ 任务不能为空，请重新输入")
                     continue
                 add_task(tasks, user_input)
+                save_tasks(tasks,json_file_path)
 
         elif choice=="2":
             show_tasks(tasks)
@@ -38,7 +47,8 @@ def main():
             show_tasks(tasks)
             try:
                 user_num=int(input("请输入要删除的任务ID："))
-                delete_task(tasks,user_num)
+                if delete_task(tasks,user_num) :
+                    save_tasks(tasks,json_file_path)              
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
@@ -47,7 +57,8 @@ def main():
             try:
                 user_num = int(input("请输入要修改的任务序号："))
                 new_text = input("输入任务新内容：")
-                update_task(tasks, user_num, new_text)
+                if update_task(tasks, user_num, new_text) :
+                    save_tasks(tasks,json_file_path)           
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
@@ -63,8 +74,8 @@ def main():
 
             try:
                 task_id=int(input("请输入要切换状态的任务ID："))
-                toggle_task_status(tasks,task_id)
-
+                if toggle_task_status(tasks,task_id) :
+                    save_tasks(tasks,json_file_path)
             except ValueError:
                 print("❌ 输入不是有效数字！")
 
@@ -73,12 +84,13 @@ def main():
             try:
                 task_id = int(input("请输入要修改优先级的任务ID："))
                 pri = int(input("请输入优先级(1高,2中,3低)："))
-                set_task_priority(tasks, task_id, pri)
+                if set_task_priority(tasks, task_id, pri) :
+                    save_tasks(tasks,json_file_path)
             except ValueError:
                 print("❌ 输入不是有效数字！")
             
         else:
-            print("❌ 无效选项，请输入1-6之间数字")
+            print("❌ 无效选项，请输入1-7之间数字")
 
 if __name__=="__main__":
     main()
