@@ -1,6 +1,6 @@
 import json
 import os
-
+from datetime import datetime
 
 
 def show_tasks(tasks):
@@ -11,7 +11,7 @@ def show_tasks(tasks):
     print("\n===== 任务列表 =====")
     for task in tasks:
         pri_text = {1:"[高]",2:"[中]",3:"[低]"}[task["priority"]]
-        print(f"{task['id']}. {pri_text} {task['content']} {'[✓]' if task['done'] else '[]'}")
+        print(f"{task['id']}. {pri_text} {task['content']} {'[✓]' if task['done'] else '[]'}       创建时间:{task['create_time']}  更新时间:{task['update_time']}")
     print("====================\n")
 
 
@@ -31,6 +31,7 @@ def update_task(tasks, task_id, new_content):
     for task in tasks:
         if task["id"]==task_id:
             task["content"]=new_content
+            task["update_time"]=get_now_str()
             print("✅ 任务修改成功")
             break
     else:
@@ -58,7 +59,15 @@ def generate_next_id(tasks):
 
 def add_task(tasks, content):
     """向任务列表追加任务"""
-    task={"id":generate_next_id(tasks),"content":content,"done":False,"priority":2}
+    now=get_now_str()
+    task={"id":generate_next_id(tasks),
+          "content":content,
+          "done":False,
+          "priority":2,
+          "create_time":now,
+          "update_time":now
+        
+          }
     tasks.append(task)
 
 
@@ -66,6 +75,7 @@ def toggle_task_status(tasks,task_id):
     for task in tasks:
         if task["id"]==task_id:
             task["done"]=not task["done"]
+            task["update_time"]=get_now_str()
             print("✅ 任务状态切换成功")
             break
     else:
@@ -81,9 +91,14 @@ def set_task_priority(tasks, task_id, priority_level):
     for task in tasks:
         if task["id"]==task_id:
             task["priority"]=priority_level
+            task["update_time"]=get_now_str()
             print("✅ 任务优先级修改成功")
             break
     else:
         print("❌ 任务ID不存在，修改优先级失败")
 
+
+
+def get_now_str():
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
